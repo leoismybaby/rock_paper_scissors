@@ -32,6 +32,35 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
+function game() {
+    let rounds = 0
+    let playerScore = 0
+    let computerScore = 0
+    while (rounds < 5) {
+        let playerSelection = window.prompt("Choose between Rock, paper or Scissors!")
+        let outcome = playRound(playerSelection, getComputerChoice)
+        console.log(outcome)
+        rounds = rounds + 1
+        console.log(`Rounds: ${rounds}`)
+        if (outcome.includes("Win")) {
+            playerScore = playerScore + 1 
+            console.log(`PlayerScore = ${playerScore}`)
+        }
+        else if (outcome.includes("Lose")) {
+            computerScore = computerScore + 1
+            console.log(`CompScore = ${computerScore}`)
+        }
+    }
+    if (computerScore > playerScore) {
+        console.log(`You lose the game! Haha! Try again.`)
+    }
+    else if (computerScore < playerScore) {
+        console.log(`You beat me! Darn it.`)
+    }
+    else {
+        console.log(`We tied! Let's play again.`)
+    }
+}
 
 function capitalize(word) {
     let firstLetter = word.charAt(0)
@@ -44,5 +73,4 @@ function capitalize(word) {
 
 
 // Test your outputs below to ensure correct values
-temp = playRound("PAPEr")
-console.log(temp)
+game()
