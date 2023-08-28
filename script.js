@@ -1,4 +1,25 @@
-// Helper functions
+//*Variables*
+let rockBtn = document.getElementById('Rock')
+let paperBtn = document.querySelector('#Paper')
+let scissorsBtn = document.querySelector('#Scissors')
+let result = document.createElement('div')
+let score = document.createElement('div')
+let gameOutcome = document.createElement('div')
+let roundOutcome = document.createElement('div')
+result.setAttribute('id', 'result')
+score.setAttribute('id', "score")
+gameOutcome.setAttribute('id', "gameOutcome")
+roundOutcome.setAttribute('id', 'roundOutcome')
+score.textContent = "You: 0 Computer: 0"
+
+document.body.appendChild(result)
+document.body.appendChild(score)
+document.body.appendChild(roundOutcome)
+document.body.appendChild(gameOutcome)
+
+let playerScore = 0
+let computerScore = 0
+
 function capitalize(word) {
     let firstLetter = word.charAt(0)
     firstLetter = firstLetter.toUpperCase()
@@ -6,8 +27,6 @@ function capitalize(word) {
     remainingLetters = remainingLetters.toLowerCase()
     return firstLetter + remainingLetters
 }
-
-// Main functions
 
 function getComputerChoice() {
     let selection = Math.floor(Math.random() * 3)
@@ -27,83 +46,40 @@ function playRound(playerSelection, computerSelection) {
     // computerSelection = getComputerChoice()
     playerSelection = capitalize(playerSelection)
 
-    // if player ties:
     if (playerSelection == computerSelection) {
-        return "It's a tie!"
-       
+        roundOutcome.textContent = "It's a tie!"
     }
-    // If player loses:
     else if (playerSelection == "Rock" && computerSelection == "Paper" || playerSelection == "Paper" && computerSelection == "Scissors" || playerSelection == "Scissors" && computerSelection == "Rock") {
-        return `You Lose! ${computerSelection} beats ${playerSelection}`
-    } 
-        
-    // if player wins:
+        roundOutcome.textContent = `You Lose! ${computerSelection} beats ${playerSelection}`;
+        computerScore++;
+    }    
     else {
-        return `You Win! ${playerSelection} beats ${computerSelection}`
+        roundOutcome.textContent = `You Win! ${playerSelection} beats ${computerSelection}`;
+        playerScore++
+    }
+    
+}
+
+rockBtn.addEventListener('click', () => choiceSelected('rock'));
+paperBtn.addEventListener('click', () => choiceSelected('paper'));
+scissorsBtn.addEventListener('click', () => choiceSelected('scissors'));
+
+
+function isGameOver() {
+    if (playerScore === 5 || computerScore === 5) {
+        if (playerScore > computerScore) {
+            gameOutcome.textContent = "Darn, you won the game!";
+        } else {
+            gameOutcome.textContent = "Hah, you lost the game!"
+        }
+
     }
 }
 
-//DOM Manipulation and Events
-//*Variables*
-let rockBtn = document.getElementById('Rock')
-let paperBtn = document.querySelector('#Paper')
-let scissorsBtn = document.querySelector('#Scissors')
-let result = document.createElement('div')
-let score = document.createElement('div')
-result.setAttribute('id', 'result')
-score.setAttribute('id', "score")
-score.textContent = "You: 0 Computer: 0"
-
-document.body.appendChild(result)
-document.body.appendChild(score)
-
-rockBtn.addEventListener('click', function (e) {
-    verdict = playRound("Rock", getComputerChoice())
-    document.querySelector('#result').textContent = verdict
-    }
-)
-
-paperBtn.addEventListener('click', function (e) {
-    playRound("Paper", getComputerChoice())
-    verdict = playRound("Paper", getComputerChoice())
-    document.querySelector('#result').textContent = verdict
-})
-
-scissorsBtn.addEventListener('click', function (e) {
-    playRound("Scissors", getComputerChoice())
-    verdict = playRound("Scissors", getComputerChoice())
-    document.querySelector('#result').textContent = verdict
-})
-
-// function game() {
-//     let rounds = 0
-//     let playerScore = 0
-//     let computerScore = 0
-//     while (rounds < 5) {
-//         // play round BUT pass in correct PlayerSelection
-//         //return outcome (Win, or lose)
-//         rounds = rounds + 1
-//         console.log(`Rounds: ${rounds}`)
-//         if (outcome.includes("Win")) {
-//             playerScore = playerScore + 1 
-//             document.querySelector('#score').textContent = `You = ${playerScore} Computer Score = ${computerScore}`
-//         }
-//         else if (outcome.includes("Lose")) {
-//             computerScore = computerScore + 1
-//             document.querySelector('#score').textContent = `You = ${playerScore} Computer Score = ${computerScore}`
-//         }
-//     }
-//     // After 5 rounds have been played, compare scores and declare winner.
-//     if (computerScore > playerScore) {
-//         console.log(`You lose the game! Haha! Try again.`)
-//     }
-//     else if (computerScore < playerScore) {
-//         console.log(`You beat me! Darn it.`)
-//     }
-//     else {
-//         console.log(`We tied! Let's play again.`)
-//     }
-// }
-
-// game()
+function choiceSelected(playerSelection) {
+    computerSelection = getComputerChoice();
+    playRound(playerSelection, computerSelection);
+    document.querySelector('#score').textContent = `You = ${playerScore} Computer Score = ${computerScore}`;
+    isGameOver();
+}
 
